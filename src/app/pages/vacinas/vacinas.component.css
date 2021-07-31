@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+    margin: auto;
+}
+
+.icon{
+  font-size: 20px;
+  margin-left: 20px;
+  margin-top: -6px;
+  opacity: 70%;
+  cursor: pointer;
+}
+
+.icon:hover{
+  transform: scale(1.2);
+}
+
+button{
+  background-color: #673ab7 !important;
+  height: 35px;
+}
+

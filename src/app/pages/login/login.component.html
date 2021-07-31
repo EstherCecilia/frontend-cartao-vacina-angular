@@ -1,0 +1,22 @@
+<div class="d-flex justify-content-between w-100 principal">
+  <div class="form">
+    <form class="d-flex example-form flex-column">
+      <img
+        class="logo-login"
+        src="https://minhavacina.recife.pe.gov.br/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBN2V6SFE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--d1c1ee34d0846b21597252ea55a13fdee615005b/logo-container.png?locale=pt-BR"
+        alt="logo"
+      />
+      <mat-form-field appearance="fill" class="input">
+        <mat-label>Código</mat-label>
+        <input matInput #cod/>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="input">
+        <mat-label>Senha</mat-label>
+        <input matInput #password/>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="onChange(cod.value, password.value)">Entrar</button>
+      <a href="">Esqueci a senha</a>
+    </form>
+  </div>
+</div>
