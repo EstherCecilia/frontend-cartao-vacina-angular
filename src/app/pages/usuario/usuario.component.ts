@@ -39,11 +39,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
  * @title Basic use of `<table mat-table>`
  */
 @Component({
-  selector: 'vacinas-app',
-  styleUrls: ['./vacinas.component.css'],
-  templateUrl: './vacinas.component.html',
+  selector: 'usuario-app',
+  styleUrls: ['./usuario.component.css'],
+  templateUrl: './usuario.component.html',
 })
-export class VacinasComponent implements AfterViewInit {
+export class UsuarioComponent implements AfterViewInit {
   constructor(public dialog: MatDialog) {}
   displayedColumns: string[] = [
     'select',
@@ -80,7 +80,7 @@ export class VacinasComponent implements AfterViewInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogContent);
+    const dialogRef = this.dialog.open(DialogContentUsuario);
   }
 
   onChangeFilter() {
@@ -116,8 +116,8 @@ export class VacinasComponent implements AfterViewInit {
 }
 
 @Component({
-  selector: 'dialog-add-vacina',
-  templateUrl: './adicionar.vacina/add.vacina.component.html',
-  styleUrls: ['./adicionar.vacina/add.vacina.component.css'],
+  selector: 'dialog-add-usuario',
+  templateUrl: './adicionar.usuario/add.usuario.component.html',
+  styleUrls: ['./adicionar.usuario/add.usuario.component.css'],
 })
-export class DialogContent {}
+export class DialogContentUsuario {}
