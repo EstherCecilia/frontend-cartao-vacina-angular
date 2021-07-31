@@ -18,12 +18,13 @@ import { UsuarioComponent } from './pages/usuario/usuario.component';
 import { DialogContent } from './pages/vacinas/vacinas.component';
 import { DialogContentLote } from './pages/lote/lote.component';
 import { DialogContentUsuario } from './pages/usuario/usuario.component';
+import {HeaderComponent} from './header/header.component'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, VacinasComponent,LoteComponent, UsuarioComponent, DialogContentUsuario, DialogContent, DialogContentLote],
+  declarations: [AppComponent, HeaderComponent, LoginComponent, HomeComponent, VacinasComponent,LoteComponent, UsuarioComponent, DialogContentUsuario, DialogContent, DialogContentLote],
   imports: [
     BrowserModule,
     AppRoutingModule,

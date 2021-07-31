@@ -1,0 +1,46 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #673ab7;
+    display: flex;
+    align-items: center;
+    position:relative;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    background: rgba(0,0,0,.4);
+  }
+
+  .logo-login{
+      width: 75px;
+      margin-right: 50px;
+      margin-left: 20px;
+  }
+  .logo-perfil{
+    width: 50px;
+}
+  
+.perfil{
+    position: absolute;
+    right: 20px;
+    color: white;
+}
+
+.icon{
+  color: white;
+}
