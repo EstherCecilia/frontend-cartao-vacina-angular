@@ -39,6 +39,11 @@ ul {
     position: absolute;
     right: 20px;
     color: white;
+    cursor: pointer;
+}
+
+.perfil:focus{
+  outline: none;
 }
 
 .icon{

@@ -40,11 +40,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
  * @title Basic use of `<table mat-table>`
  */
 @Component({
-  selector: 'usuario-app',
-  styleUrls: ['./usuario.component.css'],
-  templateUrl: './usuario.component.html',
+  selector: 'aplicador-app',
+  styleUrls: ['./aplicador.component.css'],
+  templateUrl: './aplicador.component.html',
 })
-export class UsuarioComponent implements AfterViewInit {
+export class AplicadorComponent implements AfterViewInit {
   constructor(public dialog: MatDialog) {}
   displayedColumns: string[] = [
     'select',
@@ -81,7 +81,7 @@ export class UsuarioComponent implements AfterViewInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogContentUsuario);
+    const dialogRef = this.dialog.open(DialogContentAplicador);
   }
 
   onChangeFilter() {
@@ -117,11 +117,11 @@ export class UsuarioComponent implements AfterViewInit {
 }
 
 @Component({
-  selector: 'dialog-add-usuario',
-  templateUrl: './adicionar.usuario/add.usuario.component.html',
-  styleUrls: ['./adicionar.usuario/add.usuario.component.css'],
+  selector: 'dialog-add-aplicador',
+  templateUrl: './adicionar.aplicador/add.aplicador.component.html',
+  styleUrls: ['./adicionar.aplicador/add.aplicador.component.css'],
 })
-export class DialogContentUsuario {
+export class DialogContentAplicador {
   constructor(private http: HttpClient) {}
   bairro = '';
   logradouro = '';

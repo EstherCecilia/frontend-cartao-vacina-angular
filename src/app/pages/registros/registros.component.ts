@@ -1,10 +1,9 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
-import { faTrash, faEye, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEye, faPen} from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
-import { HttpClient } from '@angular/common/http';
 
 export interface PeriodicElement {
   name: string;
@@ -40,11 +39,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
  * @title Basic use of `<table mat-table>`
  */
 @Component({
-  selector: 'usuario-app',
-  styleUrls: ['./usuario.component.css'],
-  templateUrl: './usuario.component.html',
+  selector: 'registros-app',
+  styleUrls: ['./registros.component.css'],
+  templateUrl: './registros.component.html',
 })
-export class UsuarioComponent implements AfterViewInit {
+export class RegistrosComponent implements AfterViewInit {
   constructor(public dialog: MatDialog) {}
   displayedColumns: string[] = [
     'select',
@@ -81,7 +80,7 @@ export class UsuarioComponent implements AfterViewInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogContentUsuario);
+    const dialogRef = this.dialog.open(DialogContentRegistro);
   }
 
   onChangeFilter() {
@@ -117,28 +116,8 @@ export class UsuarioComponent implements AfterViewInit {
 }
 
 @Component({
-  selector: 'dialog-add-usuario',
-  templateUrl: './adicionar.usuario/add.usuario.component.html',
-  styleUrls: ['./adicionar.usuario/add.usuario.component.css'],
+  selector: 'dialog-add-registro',
+  templateUrl: './adicionar.resgistro/add.registro.component.html',
+  styleUrls: ['./adicionar.resgistro/add.registro.component.css'],
 })
-export class DialogContentUsuario {
-  constructor(private http: HttpClient) {}
-  bairro = '';
-  logradouro = '';
-  cidade = '';
-
-
-  applyCep(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    
-    if (value.length === 8) {
-      // Simple GET request with response type <any>
-      this.http.get<any>(`https://viacep.com.br/ws/${value}/json/`).subscribe((data) => {
-        console.log(data);
-        this.bairro = data.bairro;
-        this.logradouro = data.logradouro;
-        this.cidade = data.localidade;
-      });
-    }
-  }
-}
+export class DialogContentRegistro {}

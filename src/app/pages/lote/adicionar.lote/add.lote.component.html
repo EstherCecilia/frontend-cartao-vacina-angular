@@ -10,6 +10,20 @@
       <mat-label>Fabricante</mat-label>
       <input matInput placeholder="Fabricante" />
     </mat-form-field>
+    <div class="w-100 d-flex justify-content-between mb-3">
+      <mat-form-field appearance="legacy" class="min">
+        <mat-label>Vacina</mat-label>
+        <mat-select>
+          <mat-option value="one">First option</mat-option>
+          <mat-option value="two">Second option</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" class="min">
+        <mat-label>Quantidade</mat-label>
+        <input matInput placeholder="Quantidade" type="number" />
+      </mat-form-field>
+    </div>
 
     <div class="w-100 d-flex justify-content-between mb-3">
       <mat-form-field appearance="legacy" class="min">
@@ -22,7 +36,11 @@
         <input matInput placeholder="Data e vencimento" type="date" />
       </mat-form-field>
     </div>
-    <mat-form-field class="example-full-width" appearance="fill" class="w-100 mb-4">
+    <mat-form-field
+      class="example-full-width"
+      appearance="fill"
+      class="w-100 mb-4"
+    >
       <mat-label>Descrição</mat-label>
       <textarea
         matInput
@@ -32,7 +50,14 @@
   </div>
 
   <div class="d-flex justify-content-between">
-    <button mat-raised-button color="primary" class="buttonCancel" mat-dialog-close>Cancelar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="buttonCancel"
+      mat-dialog-close
+    >
+      Cancelar
+    </button>
     <button mat-raised-button color="primary" class="button">Adicionar</button>
   </div>
 </div>

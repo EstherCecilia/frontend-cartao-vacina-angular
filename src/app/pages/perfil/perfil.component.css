@@ -1,0 +1,58 @@
+.icon {
+  font-size: 100px;
+  margin-top: -6px;
+  opacity: 70%;
+}
+
+.buttonRedon {
+  background-color: #cccccc5c;
+  border: none;
+  border-radius: 50%;
+  height: 160px;
+  width: 160px;
+  margin-left: 15px;
+  opacity: 75%;
+}
+
+.buttonRedon:focus {
+  outline: none;
+}
+
+.buttonRedon:hover {
+  opacity: 80%;
+  transform: scale(1.1);
+}
+
+.principal{
+    background-color: #cccccc2b;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    width: 95%;
+    margin: auto;
+    margin-top: 30px;
+    position: relative;
+}
+
+.info{
+    width: 65%;
+    margin-left: 46px;
+}
+
+.form-editar{
+    width: 65%;
+    margin: auto;
+}
+
+.icon-edit{
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    font-size: 16px;
+    opacity: 70%;
+    cursor: pointer;
+}
+
+.icon-edit:hover{
+    transform: scale(1.1);
+}

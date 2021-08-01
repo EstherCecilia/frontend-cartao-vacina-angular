@@ -1,0 +1,28 @@
+.principal {
+  min-width: 610px;
+  padding: 20px;
+}
+
+.min {
+  width: 45%;
+}
+
+.button,
+.buttonCancel {
+  height: 35px;
+  width: 40%;
+}
+
+.button {
+  background-color: #673ab7 !important;
+}
+
+.buttonCancel {
+  background-color: white !important;
+  border: 1px solid #673ab7;
+  color: #673ab7;
+}
+
+.example-section{
+  margin-left: 5px;
+}
