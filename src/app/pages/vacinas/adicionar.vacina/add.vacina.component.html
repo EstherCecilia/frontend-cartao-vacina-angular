@@ -3,26 +3,73 @@
   <div>
     <mat-form-field appearance="legacy" class="w-100">
       <mat-label>Nome</mat-label>
-      <input matInput placeholder="Nome" />
+      <input matInput placeholder="Nome" #name />
     </mat-form-field>
 
     <mat-form-field appearance="legacy" class="w-100">
       <mat-label>Código</mat-label>
-      <input matInput placeholder="Código" />
+      <input matInput placeholder="Código" #cod />
     </mat-form-field>
+    <div class="w-100 d-flex justify-content-between mb-3">
+      <mat-form-field appearance="legacy" class="min">
+        <mat-label>Fabricação</mat-label>
+        <input
+          matInput
+          placeholder="Data de fabricação"
+          type="date"
+          #dt_fabricacao
+        />
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="min">
+        <mat-label>Validade</mat-label>
+        <input
+          matInput
+          placeholder="Data de validade"
+          type="date"
+          #dt_validade
+        />
+      </mat-form-field>
+    </div>
 
-   
-    <mat-form-field class="example-full-width" appearance="fill" class="w-100 mb-4">
+    <mat-form-field
+      class="example-full-width"
+      appearance="fill"
+      class="w-100 mb-4"
+    >
       <mat-label>Descrição</mat-label>
       <textarea
         matInput
         placeholder="Descreva algumas informações da vacinas"
+        #descricao
       ></textarea>
     </mat-form-field>
   </div>
 
+  
   <div class="d-flex justify-content-between">
-    <button mat-raised-button color="primary" class="buttonCancel" mat-dialog-close>Cancelar</button>
-    <button mat-raised-button color="primary" class="button">Adicionar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="buttonCancel"
+      mat-dialog-close
+    >
+      Cancelar
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="button"
+      (click)="
+        adicionaVacina(
+          name.value,
+          cod.value,
+          dt_fabricacao.value,
+          dt_validade.value,
+          descricao.value
+        )
+      "
+    >
+      Adicionar
+    </button>
   </div>
 </div>

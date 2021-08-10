@@ -1,39 +1,20 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
-import { faTrash, faEye, faPen} from '@fortawesome/free-solid-svg-icons';
-import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
 
-export interface PeriodicElement {
-  name: string;
+export interface LoteElement {
   position: number;
-  weight: number;
-  symbol: string;
+  cod: string;
+  dt_criacao: string;
+  fabricante: string;
+  quantidade: number;
+  cod_vacina: string;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
-];
 
 /**
  * @title Basic use of `<table mat-table>`
@@ -44,28 +25,60 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './lote.component.html',
 })
 export class LoteComponent implements AfterViewInit {
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private http: HttpClient) {}
   displayedColumns: string[] = [
     'select',
     'position',
-    'name',
-    'weight',
-    'symbol',
+    'cod',
+    'dt_criacao',
+    'cod_vacina',
+    'quantidade',
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<LoteElement>([]);
+  selection = new SelectionModel<LoteElement>(true, []);
   faTrash = faTrash;
-  faEye = faEye;
   faPen = faPen;
   color = '#673ab7';
   filter = false;
   acoes = false;
+  removeAcao = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator?: MatPaginator;
 
+  ngOnInit() {
+    // Simple GET request with response type <any>
+    this.http
+      .get<any>('https://posto-api-vacina.herokuapp.com/lote')
+      .subscribe((data) => {
+        if (Array.isArray(data)) {
+          let aux = data.map((el, pos) => {
+            return {
+              position: pos,
+              cod: el.cod,
+              dt_criacao: el.dt_criacao,
+              cod_vacina: el.cod_vacina,
+              fabricante: el.fabricante,
+              quantidade: el.quantidade,
+            };
+          });
+
+          this.dataSource = new MatTableDataSource<LoteElement>(aux);
+        }
+      });
+  }
+
   ngAfterViewChecked() {
-    if (!this.acoes && this.selection.selected.length > 0) this.acoes = true;
-    if (this.acoes && this.selection.selected.length === 0) this.acoes = false;
+    if (!this.acoes && this.selection.selected.length > 0) {
+      this.removeAcao = true;
+      this.acoes = this.selection.selected.length === 1;
+    }
+    if (this.acoes && this.selection.selected.length === 0) {
+      this.removeAcao = false;
+    }
+
+    if (this.acoes && this.selection.selected.length !== 1) {
+      this.acoes = false;
+    }
   }
 
   ngAfterViewInit() {
@@ -81,6 +94,24 @@ export class LoteComponent implements AfterViewInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogContentLote);
+  }
+
+  remove() {
+    console.log(this.selection.selected);
+    // this.selection.selected.map((el) => {
+    //   this.http
+    //     .delete<any>('https://posto-api-vacina.herokuapp.com/lote', {
+    //       cod: el.cod,
+    //     })
+    //     .subscribe((data) => {
+    //       if (!data.status) {
+    //         console.log(data.mensagem);
+    //       } else {
+    //         // localStorage.setItem('user', JSON.stringify(data.data));
+    //         console.log(data);
+    //       }
+    //     });
+    // });
   }
 
   onChangeFilter() {
@@ -105,7 +136,7 @@ export class LoteComponent implements AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: LoteElement): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -120,4 +151,52 @@ export class LoteComponent implements AfterViewInit {
   templateUrl: './adicionar.lote/add.lote.component.html',
   styleUrls: ['./adicionar.lote/add.lote.component.css'],
 })
-export class DialogContentLote {}
+export class DialogContentLote {
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService,
+    public dialogRef: MatDialogRef<DialogContentLote>
+  ) {}
+  vacinas: any[] = [];
+
+  ngOnInit() {
+    this.http
+      .get<any>('https://posto-api-vacina.herokuapp.com/vacina')
+      .subscribe((data) => {
+        if (Array.isArray(data)) {
+          this.vacinas = data;
+        }
+      });
+  }
+
+  adicionaLote(
+    numero: string,
+    vacina: string,
+    quantidade: string,
+    date_fabricacao: string,
+    fabricante: string
+  ) {
+    if (!numero || !vacina || !quantidade || !date_fabricacao || !fabricante) {
+      this.toastr.info('Preencha os campos corretamente');
+      return;
+    }
+    let request = {
+      cod: numero,
+      cod_vacina: vacina,
+      quantidade,
+      fabricante,
+      dt_criacao: date_fabricacao,
+    };
+    this.http
+      .post<any>('https://posto-api-vacina.herokuapp.com/lote', request)
+      .subscribe((data) => {
+        if (!data.status) {
+          this.toastr.error(data.mensagem);
+        } else {
+          console.log(data);
+          this.toastr.success('Lote criada com sucesso!');
+          this.dialogRef.close();
+        }
+      });
+  }
+}

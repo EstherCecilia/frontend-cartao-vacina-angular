@@ -23,12 +23,13 @@ import { DialogContentLote } from './pages/lote/lote.component';
 import { DialogContentUsuario } from './pages/usuario/usuario.component';
 import { DialogContentAplicador } from './pages/aplicador/aplicador.component';
 import { DialogContentRegistro } from './pages/registros/registros.component';
-import { HeaderComponent } from './header/header.component';
+import { RegistrosComponent } from './pages/registros/registros.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
+import { HeaderComponent } from './components/header/header.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RegistrosComponent } from './pages/registros/registros.component';
-import { PerfilComponent } from './pages/perfil/perfil.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
     DialogContent,
     DialogContentLote,
     DialogContentRegistro,
-    PerfilComponent
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +63,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
     BrowserAnimationsModule,
     FontAwesomeModule,
     HttpClientModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

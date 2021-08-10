@@ -2,4 +2,24 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
-background-color:white; color: #303030;}
+background-color:#303030; color: white;}
+
+.mat-table {
+    background: #303030;
+}
+
+.mat-cell, .mat-footer-cell, .mat-header-cell {
+    color: white;
+}
+
+.mat-paginator {
+    background: #303030;
+}
+
+.mat-paginator, .mat-paginator-page-size .mat-select-trigger, .mat-select-value, .mat-select-arrow {
+    color: white;
+}
+
+disabled, .mat-icon-button.mat-primary.mat-button-disabled, .mat-icon-button.mat-accent.mat-button-disabled, .mat-icon-button.mat-warn.mat-button-disabled, .mat-icon-button.mat-button-disabled.mat-button-disabled, .mat-stroked-button.mat-primary.mat-button-disabled, .mat-stroked-button.mat-accent.mat-button-disabled, .mat-stroked-button.mat-warn.mat-button-disabled, .mat-stroked-button.mat-button-disabled.mat-button-disabled {
+    color: white;
+}

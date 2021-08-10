@@ -8,10 +8,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
+  constructor(
+    private router: Router
+  ) {}
   currentURL = '';
   login = true;
   faUser = faUser;
 
 
+  ngOnInit(){
+    let userPerfil = localStorage.getItem('user');
+
+    if (!userPerfil) {
+      this.router.navigate(['/']);
+    }
+  }
   title = 'cartaoVacina';
 }

@@ -2,37 +2,36 @@
   <h2>Cadastrar registro</h2>
   <div>
     <mat-form-field appearance="legacy" class="w-100">
-      <mat-label>Cpf usuário</mat-label>
-      <input matInput placeholder="cpf" />
+      <mat-label>Usuario</mat-label>
+      <mat-select #usuario>
+        <mat-option *ngFor="let el of users" [value]="el.cpf">{{el.name}}</mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field appearance="legacy" class="w-100">
       <mat-label>Vacina</mat-label>
-      <mat-select>
-        <mat-option value="one">First option</mat-option>
-        <mat-option value="two">Second option</mat-option>
+      <mat-select #vacina>
+        <mat-option *ngFor="let el of vacinas" [value]="el.cod">{{el.name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="legacy" class="w-100">
       <mat-label>Lote</mat-label>
-      <mat-select>
-        <mat-option value="one">First option</mat-option>
-        <mat-option value="two">Second option</mat-option>
+      <mat-select #lote>
+        <mat-option *ngFor="let el of lotes" [value]="el.cod">{{el.name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" class="w-100">
-      <mat-label>Dose</mat-label>
-      <mat-select>
-        <mat-option value="one">First option</mat-option>
-        <mat-option value="two">Second option</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="w-100 d-flex justify-content-between mb-3">
+      <mat-form-field appearance="legacy" class="min">
+        <mat-label>Dose</mat-label>
+        <input matInput type="number" #dose/>
+      </mat-form-field>
 
-    <mat-form-field appearance="legacy" class="w-100 mb-3 mt-3">
-      <mat-label>Data Aplicação</mat-label>
-      <input matInput type="date" />
-    </mat-form-field>
+      <mat-form-field appearance="legacy" class="min">
+        <mat-label>Data Aplicação</mat-label>
+        <input matInput type="date" #dt/>
+      </mat-form-field>
+    </div>
 
     <mat-form-field
       class="example-full-width"
@@ -41,6 +40,7 @@
     >
       <mat-label>Descrição</mat-label>
       <textarea
+       #descricao
         matInput
         placeholder="Descreva algumas informações da vacinas"
       ></textarea>
@@ -56,6 +56,6 @@
     >
       Cancelar
     </button>
-    <button mat-raised-button color="primary" class="button">Adicionar</button>
+    <button mat-raised-button color="primary" class="button" (click)="adicionaRegistro(usuario.value, vacina.value, lote.value, dose.value, dt.value, descricao.value)">Adicionar</button>
   </div>
 </div>

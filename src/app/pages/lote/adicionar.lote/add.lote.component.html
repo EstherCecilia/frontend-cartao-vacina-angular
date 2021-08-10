@@ -3,50 +3,38 @@
   <div>
     <mat-form-field appearance="legacy" class="w-100">
       <mat-label>Número</mat-label>
-      <input matInput placeholder="Número" />
+      <input matInput placeholder="Número" #numero />
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" class="w-100">
-      <mat-label>Fabricante</mat-label>
-      <input matInput placeholder="Fabricante" />
-    </mat-form-field>
     <div class="w-100 d-flex justify-content-between mb-3">
       <mat-form-field appearance="legacy" class="min">
         <mat-label>Vacina</mat-label>
-        <mat-select>
-          <mat-option value="one">First option</mat-option>
-          <mat-option value="two">Second option</mat-option>
+        <mat-select #vacina>
+          <mat-option *ngFor="let el of vacinas" [value]="el.cod">{{el.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="legacy" class="min">
         <mat-label>Quantidade</mat-label>
-        <input matInput placeholder="Quantidade" type="number" />
+        <input matInput placeholder="Quantidade" type="number" #quantidade />
       </mat-form-field>
     </div>
 
     <div class="w-100 d-flex justify-content-between mb-3">
       <mat-form-field appearance="legacy" class="min">
         <mat-label>Fabricação</mat-label>
-        <input matInput placeholder="Data de fabricação" type="date" />
+        <input
+          matInput
+          placeholder="Data de fabricação"
+          type="date"
+          #date_fabricacao
+        />
       </mat-form-field>
-
       <mat-form-field appearance="legacy" class="min">
-        <mat-label>Vencimento</mat-label>
-        <input matInput placeholder="Data e vencimento" type="date" />
+        <mat-label>Fabricante</mat-label>
+        <input matInput placeholder="Fabricante" #fabricante />
       </mat-form-field>
     </div>
-    <mat-form-field
-      class="example-full-width"
-      appearance="fill"
-      class="w-100 mb-4"
-    >
-      <mat-label>Descrição</mat-label>
-      <textarea
-        matInput
-        placeholder="Descreva algumas informações da vacinas"
-      ></textarea>
-    </mat-form-field>
   </div>
 
   <div class="d-flex justify-content-between">
@@ -58,6 +46,13 @@
     >
       Cancelar
     </button>
-    <button mat-raised-button color="primary" class="button">Adicionar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="button"
+      (click)="adicionaLote(numero.value,vacina.value, quantidade.value, date_fabricacao.value, fabricante.value)"
+    >
+      Adicionar
+    </button>
   </div>
 </div>

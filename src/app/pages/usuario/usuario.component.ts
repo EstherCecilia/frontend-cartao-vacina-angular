@@ -1,40 +1,22 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
-import { faTrash, faEye, faPen } from '@fortawesome/free-solid-svg-icons';
-import { MatDialog } from '@angular/material/dialog';
+import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
-export interface PeriodicElement {
-  name: string;
+export interface UsuarioElement {
   position: number;
-  weight: number;
-  symbol: string;
+  name: string;
+  cpf: string;
+  cep: string;
+  num: number;
+  tel: string;
+  email: string;
+  dt_nascimento: string;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
-];
 
 /**
  * @title Basic use of `<table mat-table>`
@@ -45,24 +27,51 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './usuario.component.html',
 })
 export class UsuarioComponent implements AfterViewInit {
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private http: HttpClient) {}
   displayedColumns: string[] = [
     'select',
     'position',
     'name',
-    'weight',
-    'symbol',
+    'cpf',
+    'email',
+    'dt_nascimento',
+    'tel',
+    'cep',
+    'num',
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<UsuarioElement>([]);
+  selection = new SelectionModel<UsuarioElement>(true, []);
   faTrash = faTrash;
-  faEye = faEye;
   faPen = faPen;
   color = '#673ab7';
   filter = false;
   acoes = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator?: MatPaginator;
+
+  ngOnInit() {
+    // Simple GET request with response type <any>
+    this.http
+      .get<any>('https://posto-api-vacina.herokuapp.com/usuario')
+      .subscribe((data) => {
+        if (Array.isArray(data)) {
+          let aux = data.map((el, pos) => {
+            return {
+              position: pos + 1,
+              name: el.name,
+              cpf: el.cpf,
+              cep: el.logradouro.cep,
+              num: el.logradouro.num,
+              tel: el.tel,
+              email: el.email,
+              dt_nascimento: el.dt_nascimento,
+            };
+          });
+
+          this.dataSource = new MatTableDataSource<UsuarioElement>(aux);
+        }
+      });
+  }
 
   ngAfterViewChecked() {
     if (!this.acoes && this.selection.selected.length > 0) this.acoes = true;
@@ -106,7 +115,7 @@ export class UsuarioComponent implements AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: UsuarioElement): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -122,23 +131,65 @@ export class UsuarioComponent implements AfterViewInit {
   styleUrls: ['./adicionar.usuario/add.usuario.component.css'],
 })
 export class DialogContentUsuario {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService,
+    public dialogRef: MatDialogRef<DialogContentUsuario>
+  ) {}
   bairro = '';
   logradouro = '';
   cidade = '';
 
-
   applyCep(event: Event) {
     const value = (event.target as HTMLInputElement).value;
-    
+
     if (value.length === 8) {
       // Simple GET request with response type <any>
-      this.http.get<any>(`https://viacep.com.br/ws/${value}/json/`).subscribe((data) => {
-        console.log(data);
-        this.bairro = data.bairro;
-        this.logradouro = data.logradouro;
-        this.cidade = data.localidade;
-      });
+      this.http
+        .get<any>(`https://viacep.com.br/ws/${value}/json/`)
+        .subscribe((data) => {
+          console.log(data);
+          this.bairro = data.bairro;
+          this.logradouro = data.logradouro;
+          this.cidade = data.localidade;
+        });
     }
+  }
+
+  adicionaUsuario(
+    name: string,
+    cpf: string,
+    tel: string,
+    email: string,
+    dt_nascimento: string,
+    cep: string,
+    numero: string
+  ) {
+    if (!name || !cpf || !tel || !email || !dt_nascimento || !cep || !numero) {
+      this.toastr.info('Preencha os campos corretamente');
+      return;
+    }
+
+    let request = {
+      name,
+      cpf,
+      tel,
+      email,
+      dt_nascimento,
+      logradouro: { cep, bairro: this.bairro, rua: this.logradouro, num:numero },
+      senha: cpf,
+      notification:true,
+    };
+    this.http
+      .post<any>('https://posto-api-vacina.herokuapp.com/usuario', request)
+      .subscribe((data) => {
+        if (!data.status) {
+          this.toastr.error(data.mensagem);
+        } else {
+          console.log(data);
+          this.toastr.success('Registro criada com sucesso!');
+          this.dialogRef.close();
+        }
+      });
   }
 }

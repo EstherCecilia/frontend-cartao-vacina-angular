@@ -15,7 +15,7 @@
         <input matInput #password/>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="onChange(cod.value, password.value)">Entrar</button>
+      <button mat-raised-button color="primary" (click)="onLogin($event, cod.value, password.value)">Entrar</button>
       <a href="">Esqueci a senha</a>
     </form>
   </div>

@@ -1,47 +1,68 @@
 <header-root></header-root>
 <div class="principal">
   <button class="buttonRedon">
-    <fa-icon [icon]="faUser" class="icon"></fa-icon>
+    <fa-icon [icon]="icon" class="icon"></fa-icon>
   </button>
   <div class="info d-flex justify-content-between">
     <div class="d-flex justify-content-between flex-column">
-      <p>Nome: <span>Josefina Josefina</span></p>
-      <p>Cpf: <span>999999999999</span></p>
-      <p>Celular: <span>(31) 98778787</span></p>
+      <p>
+        Nome: <span>{{ user.name }}</span>
+      </p>
+      <p>
+        Cpf: <span>{{ user.cpf }}</span>
+      </p>
+      <p>
+        Celular: <span>{{ user.tel }}</span>
+      </p>
     </div>
     <div class="d-flex justify-content-between flex-column">
-      <p>Data nascimento: <span>09-06-2020</span></p>
-      <p>CRM: <span>45677-98</span></p>
-      <p>Email: <span>email@gmail.com</span></p>
+      <p>
+        Data nascimento: <span>{{ user.dt_nascimento }}</span>
+      </p>
+      <p>
+        CRM: <span>{{ user.cr }}</span>
+      </p>
+      <p>
+        Email: <span>{{ user.email }}</span>
+      </p>
     </div>
-    
   </div>
-  <fa-icon [icon]='faPen' class="icon-edit" (click)="changeEdit()"></fa-icon>
+  <fa-icon [icon]="faPen" class="icon-edit" (click)="changeEdit()"></fa-icon>
 </div>
 
 <div class="mt-4 form-editar" *ngIf="edit">
-    <mat-form-field appearance="legacy" class="w-100">
-        <mat-label>Nome</mat-label>
-        <input matInput placeholder="Nome" />
-      </mat-form-field>
+  <mat-form-field appearance="legacy" class="w-100">
+    <mat-label>Nome</mat-label>
+    <input matInput placeholder="Nome" [value]="user.name" #name />
+  </mat-form-field>
 
-      <mat-form-field appearance="legacy" class="w-100">
-        <mat-label>Celular</mat-label>
-        <input matInput placeholder="Celular" type="tel" />
-      </mat-form-field>
-  
-      <mat-form-field appearance="legacy" class="w-100">
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="Email" type="email" />
-      </mat-form-field>
-  
-      <mat-form-field appearance="legacy" class="w-100">
-        <mat-label>Senha</mat-label>
-        <input matInput placeholder="Senha" type="password" />
-      </mat-form-field>
+  <mat-form-field appearance="legacy" class="w-100">
+    <mat-label>Celular</mat-label>
+    <input matInput placeholder="Celular" type="tel" [value]="user.tel" #tel />
+  </mat-form-field>
 
-      <button mat-raised-button color="primary" class="button mt-4 float-end">
-        Salvar
-      </button>
-  
+  <mat-form-field appearance="legacy" class="w-100">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      placeholder="Email"
+      type="email"
+      [value]="user.email"
+      #email
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="legacy" class="w-100">
+    <mat-label>Senha</mat-label>
+    <input
+      matInput
+      placeholder="Senha"
+      type="password"
+      #senha
+    />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" class="button mt-4 float-end" (click)="handleEditar(name.value, tel.value, email.value, senha.value)">
+    Salvar
+  </button>
 </div>

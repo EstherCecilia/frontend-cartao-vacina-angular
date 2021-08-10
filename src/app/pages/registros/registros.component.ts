@@ -1,39 +1,22 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
-import { faTrash, faEye, faPen} from '@fortawesome/free-solid-svg-icons';
-import { MatDialog } from '@angular/material/dialog';
+import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
-export interface PeriodicElement {
-  name: string;
+export interface RegistroElement {
   position: number;
-  weight: number;
-  symbol: string;
+  cod: string;
+  dt: string;
+  dose: number;
+  vacina: string;
+  lote: string;
+  aplicador: string;
+  usuario: string;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
-];
 
 /**
  * @title Basic use of `<table mat-table>`
@@ -44,24 +27,51 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './registros.component.html',
 })
 export class RegistrosComponent implements AfterViewInit {
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private http: HttpClient) {}
   displayedColumns: string[] = [
     'select',
     'position',
-    'name',
-    'weight',
-    'symbol',
+    'cod',
+    'usuario',
+    'vacina',
+    'lote',
+    'aplicador',
+    'dt',
+    'dose',
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<RegistroElement>([]);
+  selection = new SelectionModel<RegistroElement>(true, []);
   faTrash = faTrash;
-  faEye = faEye;
   faPen = faPen;
   color = '#673ab7';
   filter = false;
   acoes = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator?: MatPaginator;
+
+  ngOnInit() {
+    // Simple GET request with response type <any>
+    this.http
+      .get<any>('https://posto-api-vacina.herokuapp.com/registro')
+      .subscribe((data) => {
+        if (Array.isArray(data)) {
+          let aux = data.map((el, pos) => {
+            return {
+              position: pos + 1,
+              cod: el.cod,
+              dose: el.dose,
+              dt: el.dt,
+              vacina: el.vacina,
+              usuario: el.usuario,
+              lote: el.cod_lote,
+              aplicador: el.aplicador,
+            };
+          });
+
+          this.dataSource = new MatTableDataSource<RegistroElement>(aux);
+        }
+      });
+  }
 
   ngAfterViewChecked() {
     if (!this.acoes && this.selection.selected.length > 0) this.acoes = true;
@@ -105,7 +115,7 @@ export class RegistrosComponent implements AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: RegistroElement): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -120,4 +130,78 @@ export class RegistrosComponent implements AfterViewInit {
   templateUrl: './adicionar.resgistro/add.registro.component.html',
   styleUrls: ['./adicionar.resgistro/add.registro.component.css'],
 })
-export class DialogContentRegistro {}
+export class DialogContentRegistro {
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService,
+    public dialogRef: MatDialogRef<DialogContentRegistro>
+  ) {}
+  vacinas: any[] = [];
+  lotes: any[] = [];
+  users: any[] = [];
+  user: any;
+
+  ngOnInit() {
+    this.http
+      .get<any>('https://posto-api-vacina.herokuapp.com/vacina')
+      .subscribe((data) => {
+        if (Array.isArray(data)) {
+          this.vacinas = data;
+        }
+      });
+
+    this.http
+      .get<any>('https://posto-api-vacina.herokuapp.com/lote')
+      .subscribe((data) => {
+        if (Array.isArray(data)) {
+          this.lotes = data;
+        }
+      });
+
+    this.http
+      .get<any>('https://posto-api-vacina.herokuapp.com/usuario')
+      .subscribe((data) => {
+        if (Array.isArray(data)) {
+          this.users = data;
+        }
+      });
+  }
+
+  adicionaRegistro(
+    usuario: string,
+    vacina: string,
+    lote: string,
+    dose: string,
+    dt: string,
+    descricao: string
+  ) {
+    if (!usuario || !vacina || !lote || !dose || !dt) {
+      this.toastr.info('Preencha os campos corretamente');
+      return;
+    }
+    let userPerfil = localStorage.getItem('user');
+    this.user = userPerfil && JSON.parse(userPerfil);
+
+    let request = {
+      cod: vacina + usuario,
+      cod_vacina: vacina,
+      cpf_aplicador: this.user.cpf,
+      cpf_usuario: usuario,
+      cod_lote: lote,
+      dose,
+      dt,
+      descricao,
+    };
+    this.http
+      .post<any>('https://posto-api-vacina.herokuapp.com/registro', request)
+      .subscribe((data) => {
+        if (!data.status) {
+          this.toastr.error(data.mensagem);
+        } else {
+          console.log(data);
+          this.toastr.success('Registro criada com sucesso!');
+          this.dialogRef.close();
+        }
+      });
+  }
+}
