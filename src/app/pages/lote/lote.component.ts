@@ -7,6 +7,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
+var loteEditar: any;
+
 export interface LoteElement {
   position: number;
   cod: string;
@@ -97,21 +99,26 @@ export class LoteComponent implements AfterViewInit {
   }
 
   remove() {
-    console.log(this.selection.selected);
-    // this.selection.selected.map((el) => {
-    //   this.http
-    //     .delete<any>('https://posto-api-vacina.herokuapp.com/lote', {
-    //       cod: el.cod,
-    //     })
-    //     .subscribe((data) => {
-    //       if (!data.status) {
-    //         console.log(data.mensagem);
-    //       } else {
-    //         // localStorage.setItem('user', JSON.stringify(data.data));
-    //         console.log(data);
-    //       }
-    //     });
-    // });
+    this.selection.selected.map((el) => {
+      this.http
+        .post<any>('https://posto-api-vacina.herokuapp.com/del/lote', {
+          cod: el.cod,
+        })
+        .subscribe((data) => {
+          if (!data.status) {
+            console.log(data.mensagem);
+          } else {
+            console.log(data);
+          }
+        });
+    });
+  }
+
+  editar() {
+    loteEditar = this.selection.selected[0];
+    if (Object.values(loteEditar).length > 0) {
+      const dialogRef = this.dialog.open(DialogContentLote);
+    }
   }
 
   onChangeFilter() {
@@ -158,6 +165,8 @@ export class DialogContentLote {
     public dialogRef: MatDialogRef<DialogContentLote>
   ) {}
   vacinas: any[] = [];
+  editar:any = loteEditar;
+
 
   ngOnInit() {
     this.http

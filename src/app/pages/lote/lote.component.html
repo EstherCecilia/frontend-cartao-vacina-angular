@@ -17,7 +17,7 @@
         Adicionar lote
       </button>
      
-      <button [disabled]="!acoes" class="buttonRedon">
+      <button [disabled]="!acoes" class="buttonRedon" (click)="editar()">
         <fa-icon class="icon" [icon]="faPen"></fa-icon></button
       ><button [disabled]="!removeAcao" class="buttonRedon" (click)="remove()">
         <fa-icon class="icon" [icon]="faTrash"></fa-icon>

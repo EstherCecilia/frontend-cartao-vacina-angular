@@ -2,7 +2,7 @@
   min-height: 570px;
   min-width: 600px;
   padding: 5%;
-  background-color: white;
+  background-color: #303030;
 }
 
 .example-full-width {
@@ -42,4 +42,8 @@ button{
   width: 80%;
   background-color: #673AB7 !important;
   margin-bottom: 10px;
+}
+
+a{
+  color: #673AB7;
 }

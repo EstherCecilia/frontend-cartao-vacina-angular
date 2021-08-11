@@ -3,7 +3,7 @@
   <div>
     <mat-form-field appearance="legacy" class="w-100">
       <mat-label>Número</mat-label>
-      <input matInput placeholder="Número" #numero />
+      <input matInput placeholder="Número" #numero [value]="editar.cod" />
     </mat-form-field>
 
     <div class="w-100 d-flex justify-content-between mb-3">
@@ -16,7 +16,7 @@
 
       <mat-form-field appearance="legacy" class="min">
         <mat-label>Quantidade</mat-label>
-        <input matInput placeholder="Quantidade" type="number" #quantidade />
+        <input matInput placeholder="Quantidade" type="number" #quantidade  [value]="editar.quantidade"/>
       </mat-form-field>
     </div>
 
@@ -32,7 +32,7 @@
       </mat-form-field>
       <mat-form-field appearance="legacy" class="min">
         <mat-label>Fabricante</mat-label>
-        <input matInput placeholder="Fabricante" #fabricante />
+        <input matInput placeholder="Fabricante" #fabricante [value]="editar.fabricante"/>
       </mat-form-field>
     </div>
   </div>
