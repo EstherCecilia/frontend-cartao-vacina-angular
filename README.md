@@ -1,3 +1,7 @@
+![Capturar](https://user-images.githubusercontent.com/29818932/128950686-e814a6e0-91c9-4338-9f95-e974f06db71c.PNG)
+![Capturar](https://user-images.githubusercontent.com/29818932/128950758-c920fe65-9339-43a6-a463-eff731016b61.PNG)
+![Capturar](https://user-images.githubusercontent.com/29818932/128950793-cccf7f1a-d7be-43eb-8f5d-b900fca27b57.PNG)
+![Capturar](https://user-images.githubusercontent.com/29818932/128950902-5aa8ac7b-558d-4988-a444-50bfa7ba0599.PNG)
 # CartaoVacina
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.2.
